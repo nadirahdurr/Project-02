@@ -1,4 +1,5 @@
 # Project-02
+## Files
 ### mdb_populate_binance.ipynb
 Populates the database with selected coin pairs and Fear and Greed Index, uses an already set up Mongo Database to store the data.
 **Suggested to run only if we need new data loaded into the db**
@@ -10,3 +11,12 @@ Updates the database with the configured data to the last minute.
 ### model_selector.ipynb
 Run severals Finta indicators and and several SKLearn Algorithms to show which one is more accurate.
 **Main file to run to do some testing**
+
+## Pending
+- [ ] Add Coin Pair to DB list when "populate"
+- [ ] Add Feature Importances (https://towardsdatascience.com/understanding-feature-importance-and-how-to-implement-it-in-python-ff0287b20285)
+- [ ] Add Google Trends
+- [ ] Backtest the Returns etc
+- [ ] Inprove features (test more finta etc)
+- [ ] Find the best Coinpair (highest accuracy) to focus on
+- [ ] Export the best model to the DB, to be used in UI for "live" predictions
