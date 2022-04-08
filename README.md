@@ -21,3 +21,6 @@ Runs severals Finta indicators and and several SKLearn Algorithms to show which 
 - [ ] Find the best Coinpair (highest accuracy) to focus on
 - [ ] Export the best model to the DB, to be used in UI for "live" predictions
 - [ ] Ensemble Machine Learning: Add some more (https://scikit-learn.org/stable/modules/ensemble.html)
+
+## Packages
+!pip install pandas numpy pymongo==4.0.0 python-binance dnspython python-dotenv pytrends
