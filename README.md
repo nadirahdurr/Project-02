@@ -23,4 +23,4 @@ Runs severals Finta indicators and and several SKLearn Algorithms to show which 
 - [ ] Ensemble Machine Learning: Add some more (https://scikit-learn.org/stable/modules/ensemble.html)
 
 ## Packages
-!pip install pandas numpy pymongo==4.0.0 python-binance dnspython python-dotenv pytrends
+!pip install pandas numpy pymongo==4.0.0 python-binance dnspython python-dotenv pytrends hvplot finta sklearn imblearn
