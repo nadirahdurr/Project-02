@@ -24,7 +24,7 @@ from utils.backtesting import (
     backtest_model
 )
 
-def select_models(X, X_test, X_train, y_test, y_train, df_coinpair, models = [
+def select_models(X, X_test, X_train, y_test, y_train, df_coinpair, export_model_to_db=False, models = [
     "RandomForestClassifier", 
     "SVM", 
     "SVM_linear",
@@ -82,9 +82,17 @@ def select_models(X, X_test, X_train, y_test, y_train, df_coinpair, models = [
         backtest_data_df = backtest_data["df"]
         backtest_summary = backtest_data["summary"]
         
-        # Sets the variable with the f1_scores and prepares to Merge with the Feature Importance Dict
-        f1_scores_temp = {"model": model_name, "trader_vs_actual": backtest_summary["dif"],"actual_returns_sum": backtest_summary["actual_returns"],"portfolio_returns_sum": backtest_summary["portfolio_returns"], "accuracy": report["accuracy"], "f1(-1.0)": report["-1.0"]["f1-score"], "f1(1.0)": report["1.0"]["f1-score"], "risk_metrics": backtest_summary["risk_metrics"], "pickle_model": pickle.dumps(model), "backtest_data": backtest_data_df.to_dict("records")}
+        # Set the index as tiemstamp
+        backtest_data_df = backtest_data_df.reset_index()
+        backtest_data_df.columns = backtest_data_df.columns.str.replace("index", 'timestamp')
         
+        # Sets the variable with the f1_scores and prepares to Merge with the Feature Importance Dict
+        f1_scores_temp = {"model": model_name, "trader_vs_actual": backtest_summary["dif"],"actual_returns_sum": backtest_summary["actual_returns"],"portfolio_returns_sum": backtest_summary["portfolio_returns"], "accuracy": report["accuracy"], "f1(-1.0)": report["-1.0"]["f1-score"], "f1(1.0)": report["1.0"]["f1-score"], "risk_metrics": backtest_summary["risk_metrics"], "backtest_data": backtest_data_df.to_dict("records")}
+        
+        # Export model as Binary for
+        if export_model_to_db == True:
+             f1_scores_temp["pickle_model"] = pickle.dumps(model)
+
         # Merges both Dicts to create a single List per Model
         f1_scores_temp.update(importances)
         

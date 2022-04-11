@@ -48,7 +48,7 @@ def get_coinpair_df_mongo(db, coinpair, timeframe, last_date):
     collection_name = coinpair + "_" + timeframe
     
     # Get the coinpairs from the Database
-    coinpair = db[collection_name].find({"open_time": {'$gte': last_date}}).sort("open_time", 1)
+    coinpair = db[collection_name].find({}).sort("open_time", 1)
 
     # convert the dictionary objects to dataframe
     coinpair_df = pd.DataFrame(coinpair)
@@ -67,7 +67,7 @@ def get_google_trends_mongo(db, timeframe, coin_name, last_date):
     timeframe = timeframe.replace("m", "T")
     
     # Get the coinpairs from the Database
-    trends = db["trends_"+coin_name].find({"date": {'$gte': last_date}}, {"_id": 0 })
+    trends = db["trends_"+coin_name].find({}, {"_id": 0 })
     
     # Convert the dictionary objects to dataframe
     df_trends = pd.DataFrame(trends)
@@ -89,7 +89,7 @@ def get_fng_mongo(db, coinpair, timeframe, last_date):
     timeframe = timeframe.replace("m", "T")
     
     # Get the coinpairs from the Database
-    fng = db["fear_greed_index"].find({"timestamp": {'$gte': last_date}}, {"_id": 0, "value_classification": 0 })
+    fng = db["fear_greed_index"].find({}, {"_id": 0, "value_classification": 0 })
     
     # Convert the dictionary objects to dataframe
     df_fg = pd.DataFrame(fng)
@@ -138,7 +138,7 @@ def save_models_mongo(db, data):
     data["timestamp"] = datetime.utcnow()
     
     # Get the coinpairs from the Database
-    # predictions = db[collection_name].insert_one(data)
+    predictions = db[collection_name].insert_one(data)
 
     return
 
