@@ -6,7 +6,7 @@ import pandas as pd
 from pandas.tseries.offsets import DateOffset
 
 # Import the classifier Models
-from sklearn.svm import SVC
+from sklearn.svm import SVC, LinearSVC
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.neural_network import MLPClassifier
 from sklearn.naive_bayes import GaussianNB
@@ -15,6 +15,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.gaussian_process.kernels import RBF
 from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier, BaggingClassifier
 from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
+from sklearn.linear_model import SGDClassifier
 
 # Import Classification Report
 from sklearn.metrics import classification_report
@@ -27,7 +28,7 @@ from utils.backtesting import (
 def select_models(X, X_test, X_train, y_test, y_train, df_coinpair, export_model_to_db=False, models = [
     "RandomForestClassifier", 
     "SVM", 
-    "SVM_linear",
+    "LinearSVC",
     "DecisionTreeClassifier", 
     "AdaBoostClassifier", 
     "AdaBoostClassifier_100",
@@ -36,22 +37,24 @@ def select_models(X, X_test, X_train, y_test, y_train, df_coinpair, export_model
     "GaussianProcessClassifier", 
     "KNeighborsClassifier", 
     "KNeighborsClassifier_3",
-    "KNeighborsClassifierBagging"
+    "KNeighborsClassifierBagging",
+    "SGDClassifier"
     ]):
     f1_scores = []
     for model_name in models:
+        print(f"Fitting {model_name}..")
         if model_name == "RandomForestClassifier":
             model = RandomForestClassifier(max_depth=5, n_estimators=10, max_features=1)
         elif model_name == "SVM":
             model = SVC(gamma=2, C=1)
-        elif model_name == "SVM_linear":
-            model = SVC(kernel="linear", C=0.025)
+        elif model_name == "LinearSVC":
+            model = LinearSVC(dual=False)
         elif model_name == "DecisionTreeClassifier":
             model = DecisionTreeClassifier(max_depth=5)
         elif model_name == "AdaBoostClassifier":
             model = AdaBoostClassifier()
-        elif model_name == "AdaBoostClassifier_1000":
-            model = AdaBoostClassifier(n_estimators=1000)
+        elif model_name == "AdaBoostClassifier_5000":
+            model = AdaBoostClassifier(n_estimators=5000)
         elif model_name == "MLPClassifier":
             model = MLPClassifier(alpha=1, max_iter=1000)
         elif model_name == "GaussianNB":
@@ -64,11 +67,12 @@ def select_models(X, X_test, X_train, y_test, y_train, df_coinpair, export_model
             model = KNeighborsClassifier(3)
         elif model_name == "KNeighborsClassifierBagging":
             model = BaggingClassifier(KNeighborsClassifier(),max_samples=0.5, max_features=0.5)
-        # Fit the model with training data
+        elif model_name == "SGDClassifier":
+            model = SGDClassifier(max_iter=1000, tol=1e-3)
+            
         model.fit(X_train, y_train)
 
         # Use the trained model to predict the trading signals for the testing data.
-        #print(f"Predicting using {model_name}")
         y_predicted_test = model.predict(X_test)
 
         # Get our Important Features for the Model
