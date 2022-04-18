@@ -142,25 +142,3 @@ Although we have identified certain indicators, models, and timeframes to be opt
 ​
 This site we created also includes financial risk metrics, such as annual volatility, annualized return, cumulative returns, the Sharpe ratio, and the Sortino ratio for the user to reference and make the best financial decisions.
 ​
-## From Gabriel's original ReadMe:
-​
-### populate_database.ipynb:
-​
-Populates the database with selected coin pairs and Fear and Greed Index, uses an already set up Mongo Database to store the data.
-**Suggested to run only if we need new data loaded into the db**
-​
-### update_database.ipynb
-​
-Updates the database with the configured data to the last minute.
-**Suggested to run only if we need up-to-date data loaded into the db, this update will change the data and therefore might show different results in the predictions every time an algo is run**
-​
-## Pending
-​
-- [ ] Add Coin Pair to DB list when "populate"
-- [x] Add Feature Importances (https://towardsdatascience.com/understanding-feature-importance-and-how-to-implement-it-in-python-ff0287b20285)
-- [ ] Add Google Trends
-- [ ] Backtest the Returns etc
-- [ ] Improve features (test more finta etc)
-- [ ] Find the best Coinpair (highest accuracy) to focus on
-- [ ] Export the best model to the DB, to be used in UI for "live" predictions
-- [ ] Ensemble Machine Learning: Add some more (https://scikit-learn.org/stable/modules/ensemble.html)
